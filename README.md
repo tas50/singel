@@ -10,8 +10,5 @@ Packer must be installed and the bin dir in your user PATH.  https://packer.io/d
 ###Virtualbox
 Virtualbox must be installed. https://www.virtualbox.org/wiki/Downloads
 
-###Chef Keys
-You must have the chef validator key and encrypted databag key located at ~/.chef/chef-validator.pem and ~/.chef/encrypted_data_bag_secret.
-
 ###AWS Credentials
 You must have the AWS secret access key and access key variables set on your host.
