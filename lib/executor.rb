@@ -4,7 +4,7 @@
 class SingelExecutor
   def initialize(filename)
     @filename = filename
-    @packer_dir = File.absolute_path(File.join(File.dirname($0), 'packer'))
+    @packer_dir = File.absolute_path(File.join(File.dirname($PROGRAM_NAME), 'packer'))
     @file_path = File.join(@packer_dir, filename)
     @builders = {}
   end
@@ -28,12 +28,12 @@ class SingelExecutor
 
   # print out the builders for this template
   def list
-    puts @filename.gsub('.json','') + ':'
-    self.parse_builders
+    puts @filename.gsub('.json', '') + ':'
+    parse_builders
     if @builders.empty?
       puts '- No builders found'.indent.to_red
     else
-      @builders.each_pair do |name,type|
+      @builders.each_pair do |name, type|
         puts "- #{name} (type: #{type})".indent
       end
     end

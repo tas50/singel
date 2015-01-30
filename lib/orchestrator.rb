@@ -30,18 +30,16 @@ class SingelOrchestrator
 
   # make a test connection using the AWS keys to determine if they're valid
   def check_aws_keys
-    begin
-      ec2 = Aws::EC2::Client.new(region: 'us-east-1')
-      ec2.describe_instance_status
-    rescue
-      puts "Could not connect to EC2. Check your local AWS credentials before continuing.".to_red
-      exit
-    end
+    ec2 = Aws::EC2::Client.new(region: 'us-east-1')
+    ec2.describe_instance_status
+  rescue
+    puts 'Could not connect to EC2. Check your local AWS credentials before continuing.'.to_red
+    exit
   end
 
   # check to make sure the prereq binaries present
   def check_executables
-    {'Virtualbox' => 'vboxwebsrv', "Packer" => 'packer'}.each_pair do |name,binary|
+    { 'Virtualbox' => 'vboxwebsrv', 'Packer' => 'packer' }.each_pair do |name, binary|
       `which #{binary} 2>&1`
       unless $CHILD_STATUS.success?
         puts "Could not find #{name} binary #{binary}. You must install #{name} before continuing.".to_red unless $CHILD_STATUS

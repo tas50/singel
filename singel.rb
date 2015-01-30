@@ -32,18 +32,18 @@ end
 
 def parse_opts
   options = { :templates => [], :builders => [] }
-  banner = "Singel - Unified system image creation using Packer\n\n" +
-            "Usage: singel [action] [options]\n\n" +
-            "  Actions:\n" +
-            "    build: Build system images\n" +
-            "    list: List available image templates and builder types (AMI, Virtualbox, etc)\n\n" +
+  banner = "Singel - Unified system image creation using Packer\n\n" \
+            "Usage: singel [action] [options]\n\n" \
+            "  Actions:\n" \
+            "    build: Build system images\n" \
+            "    list: List available image templates and builder types (AMI, Virtualbox, etc)\n\n" \
             "  Options:\n"
   OptionParser.new do |opts|
     opts.banner = banner
-    opts.on('-t', '--templates', "Build only the specified comma separated list of templates") do
+    opts.on('-t', '--templates', 'Build only the specified comma separated list of templates') do
       options[:templates] = []
     end
-    opts.on('-b', '--builders', "Build only the specified comma separated list of builder types") do
+    opts.on('-b', '--builders', 'Build only the specified comma separated list of builder types') do
       options[:builers] = []
     end
     opts.on('-h', '--help', 'Displays Help') do
