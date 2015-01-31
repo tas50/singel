@@ -31,7 +31,7 @@ class String
 end
 
 def parse_opts
-  options = { :templates => [], :builders => [] }
+  options = { :templates => [], :builders => [], :packer_dir => "./packer"}
   banner = "Singel - Unified system image creation using Packer\n\n" \
             "Usage: singel [action] [options]\n\n" \
             "  Actions:\n" \
@@ -40,17 +40,20 @@ def parse_opts
             "  Options:\n"
   OptionParser.new do |opts|
     opts.banner = banner
-    opts.on('-t', '--templates', 'Build only the specified comma separated list of templates') do
-      options[:templates] = []
+    opts.on('-t', '--templates t1.json,t2.json', Array, 'Build only the specified comma separated list of templates') do |t|
+      options[:templates] = t
     end
-    opts.on('-b', '--builders', 'Build only the specified comma separated list of builder types') do
-      options[:builers] = []
+    opts.on('-b', '--builders type1,type2', Array, 'Build only the specified comma separated list of builder types') do |b|
+      options[:builders] = b
+    end
+    opts.on('-p', '--packer_dir', String, 'Path to the packer dir containing templates and other files') do |p|
+      options[:packer_dir] = p
     end
     opts.on('-h', '--help', 'Displays Help') do
       puts opts
       exit
     end
-  end.parse!
+  end.parse!(ARGV)
 
   options
 end
