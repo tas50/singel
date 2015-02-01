@@ -38,6 +38,9 @@ class SingelExecutor
   end
 
   def build
-    puts "I would build #{File.basename(@file_path, '.json')} here"
+    puts "Building #{File.basename(@file_path, '.json')}:".to_green
+    IO.popen("packer build #{@file_path}") do |cmd|
+      cmd.each { |line| puts line }
+    end
   end
 end
