@@ -65,7 +65,12 @@ class SingelOrchestrator
     @templates.each do |template|
       packer = SingelExecutor.new(template)
       puts "Packer template validation for #{template} failed.".to_red unless packer.validates?
-      packer.send(cmd)
+      begin
+        packer.send(cmd)
+      rescue NoMethodError
+        puts "Action \"#{cmd}\" not found.  Cannot continue"
+        exit
+      end
     end
   end
 end
