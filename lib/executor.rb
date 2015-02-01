@@ -2,10 +2,9 @@
 
 # executes packer commands against template files
 class SingelExecutor
-  def initialize(filename)
-    @filename = filename
-    @packer_dir = File.absolute_path(File.join(File.dirname($PROGRAM_NAME), 'packer'))
-    @file_path = File.join(@packer_dir, filename)
+  def initialize(template)
+    @file_path = template
+    @packer_dir = File.dirname(template)
     @builders = {}
   end
 
@@ -28,7 +27,7 @@ class SingelExecutor
 
   # print out the builders for this template
   def list
-    puts @filename.gsub('.json', '') + ':'
+    puts File.basename(@file_path, '.json') + ':'
     parse_builders
     if @builders.empty?
       puts '- No builders found'.indent.to_red
