@@ -50,7 +50,7 @@ class SingelOrchestrator
     check_dirs
     templates = []
     Dir.foreach(@options[:packer_dir]) do |item|
-      templates << item if File.extname(item).downcase == '.json'
+      templates << File.join(@options[:packer_dir], item) if File.extname(item).downcase == '.json'
     end
 
     if templates.empty?
