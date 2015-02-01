@@ -2,8 +2,8 @@
 
 class SingelOrchestrator
   def initialize(options)
-    @templates = find_templates
     @options = options
+    @templates = find_templates
   end
 
   # main method used to kick off the run
@@ -11,7 +11,6 @@ class SingelOrchestrator
     puts "\nsingel - unified image creation tool"
     puts "-----------------------------------------\n\n"
 
-    check_dirs
     check_aws_keys
     check_executables
 
@@ -20,11 +19,9 @@ class SingelOrchestrator
 
   # check to make sure necessary directories exist
   def check_dirs
-    %w(packer output).each do |dir|
-      unless File.directory?(dir)
-        puts "#{dir.capitalize} directory not present. Create directory '#{dir}' in the root of the singel directory before continuing.".to_red
-        exit
-      end
+    unless Dir.exist?(@options[:packer_dir])
+      puts "#{@options[:packer_dir]} not present. Cannot continue".to_red
+      exit
     end
   end
 
@@ -50,8 +47,9 @@ class SingelOrchestrator
 
   # find the available packer templates on the host
   def find_templates
+    check_dirs
     templates = []
-    Dir.foreach('packer/') do |item|
+    Dir.foreach(@options[:packer_dir]) do |item|
       templates << item if File.extname(item).downcase == '.json'
     end
 

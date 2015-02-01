@@ -31,7 +31,7 @@ class String
 end
 
 def parse_opts
-  options = { :templates => [], :builders => [], :packer_dir => './packer' }
+  options = { :templates => [], :builders => [], :packer_dir => File.expand_path('./packer') }
   banner = "Singel - Unified system image creation using Packer\n\n" \
             "Usage: singel [action] [options]\n\n" \
             "  Actions:\n" \
@@ -46,8 +46,8 @@ def parse_opts
     opts.on('-b', '--builders type1,type2', Array, 'Build only the specified comma separated list of builder types') do |b|
       options[:builders] = b
     end
-    opts.on('-p', '--packer_dir', String, 'Path to the packer dir containing templates and other files') do |p|
-      options[:packer_dir] = p
+    opts.on('-p', '--packer_dir PATH', 'Path to the packer dir containing templates and other files') do |p|
+      options[:packer_dir] = File.expand_path(p)
     end
     opts.on('-h', '--help', 'Displays Help') do
       puts opts
@@ -58,7 +58,6 @@ def parse_opts
   options
 end
 
-# make sure the user provided a server name
 unless ARGV[0]
   puts "You must provide an action for singel to execute on\n".to_red
   ARGV << '-h'
