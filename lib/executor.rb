@@ -36,4 +36,8 @@ class SingelExecutor
       end
     end
   end
+
+  def build
+    puts "I would build #{File.basename(@file_path, '.json')} here"
+  end
 end
