@@ -14,8 +14,8 @@ rescue LoadError => e
   raise "Missing gem or lib #{e}"
 end
 
+# add a few methods for manipulating text
 class String
-  # make text green
   def to_green
     "\033[32m#{self}\033[0m"
   end
@@ -31,7 +31,7 @@ class String
 end
 
 def parse_opts
-  options = { :templates => [], :builders => [], :packer_dir => "./packer"}
+  options = { :templates => [], :builders => [], :packer_dir => './packer' }
   banner = "Singel - Unified system image creation using Packer\n\n" \
             "Usage: singel [action] [options]\n\n" \
             "  Actions:\n" \
