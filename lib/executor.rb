@@ -42,5 +42,7 @@ class SingelExecutor
     IO.popen("packer build #{@file_path}") do |cmd|
       cmd.each { |line| puts line }
     end
+
+    SingelUploader.new(@file_path).push
   end
 end

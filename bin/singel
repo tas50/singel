@@ -10,6 +10,7 @@ begin
   require 'json'
   require 'orchestrator.rb'
   require 'executor.rb'
+  require 'uploader.rb'
 rescue LoadError => e
   raise "Missing gem or lib #{e}"
 end
