@@ -68,7 +68,7 @@ class SingelOrchestrator
       begin
         packer.send(cmd)
       rescue NoMethodError
-        puts "Action \"#{cmd}\" not found.  Cannot continue"
+        puts "Action \"#{cmd}\" not found.  Cannot continue".to_red
         exit
       end
     end
