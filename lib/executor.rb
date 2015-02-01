@@ -12,7 +12,6 @@ class SingelExecutor
   def validates?
     Dir.chdir(@packer_dir)
     `packer validate #{@file_path} 2>&1`
-    Dir.chdir('..') # prevent poisening $0 path on the next instance
     $CHILD_STATUS.success? ? true : false
   end
 
