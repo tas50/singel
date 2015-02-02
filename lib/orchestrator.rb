@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# class to control validation of configs / prereqs and to
+# fire off the individual executor instances to build each template
 class SingelOrchestrator
   def initialize(options)
     @options = options
