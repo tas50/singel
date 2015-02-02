@@ -22,5 +22,3 @@ SingleSpaceBeforeFirstArg:
   Enabled: false
 PerceivedComplexity:
   Enabled: false
-FileName:
-  Enabled: false
