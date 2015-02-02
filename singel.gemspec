@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'singel'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.date        = Date.today.to_s
   s.platform = Gem::Platform::RUBY
   s.extra_rdoc_files = ['README.md', 'LICENSE']
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.28.0'
 
   s.files         = `git ls-files -z`.split("\x0")
-  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  s.executables   = s.name
   s.require_paths = ['lib']
   s.extra_rdoc_files = ['README.md']
   s.rdoc_options = ['--line-numbers', '--inline-source', '--title', 'singel', '--main', 'README.md']
