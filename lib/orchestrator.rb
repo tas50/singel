@@ -3,7 +3,6 @@
 class SingelOrchestrator
   def initialize(options)
     @options = options
-    @templates = find_templates
   end
 
   # main method used to kick off the run
@@ -11,18 +10,17 @@ class SingelOrchestrator
     puts "\nsingel - unified image creation tool"
     puts "-----------------------------------------\n\n"
 
-    check_aws_keys
+    check_dirs
     check_executables
+    @templates = find_templates
+    check_aws_keys
 
     execute_command(ARGV[0])
   end
 
-  # check to make sure necessary directories exist
+  # check to make sure the packer dir exists
   def check_dirs
-    unless Dir.exist?(@options[:packer_dir])
-      puts "#{@options[:packer_dir]} not present. Cannot continue".to_red
-      exit
-    end
+    ( puts "#{@options[:packer_dir]} not present. Cannot continue".to_red && exit ) unless Dir.exist?(@options[:packer_dir])
   end
 
   # make a test connection using the AWS keys to determine if they're valid
@@ -47,24 +45,27 @@ class SingelOrchestrator
 
   # find the available packer templates on the host
   def find_templates
-    check_dirs
-    templates = []
-    Dir.foreach(@options[:packer_dir]) do |item|
-      templates << File.join(@options[:packer_dir], item) if File.extname(item).downcase == '.json'
-    end
+    if @options[:templates].empty?
+      templates = []
+      Dir.foreach(@options[:packer_dir]) do |item|
+        templates << File.join(@options[:packer_dir], item) if File.extname(item).downcase == '.json'
+      end
 
-    if templates.empty?
-      puts "No packer templates found in the 'packer' dir. Cannot continue.".to_red
-      exit
+      if templates.empty?
+        puts "No packer templates found in the 'packer' dir. Cannot continue.".to_red
+        exit
+      end
+      templates
+    else
+      @options[:templates].map { |x| File.join(@options[:packer_dir], x)}
     end
-    templates
   end
 
   # run the passed command per packer template
   def execute_command(cmd)
     @templates.each do |template|
       packer = SingelExecutor.new(template)
-      puts "Packer template validation for #{template} failed.".to_red unless packer.validates?
+      puts "Packer template validation for #{template} failed.\n".to_red unless packer.validates?
       begin
         packer.send(cmd)
       rescue NoMethodError

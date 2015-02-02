@@ -17,10 +17,15 @@ class SingelExecutor
 
   # inspect the json file to determine the name and type of the builders
   def parse_builders
-    template_file = File.read(@file_path)
-    template_json = JSON.parse(template_file)
-    template_json['builders'].each do |builder|
-      @builders[builder['name']] = builder['type']
+    begin
+      template_file = File.read(@file_path)
+      template_json = JSON.parse(template_file)
+      template_json['builders'].each do |builder|
+        @builders[builder['name']] = builder['type']
+      end
+    rescue Errno::ENOENT
+      puts "- Could not find the passed template file #{@file_path}".indent.to_red
+      exit
     end
   end
 
