@@ -20,7 +20,7 @@ class SingelOrchestrator
 
   # check to make sure the packer dir exists
   def check_dirs
-    ( puts "#{@options[:packer_dir]} not present. Cannot continue".to_red && exit ) unless Dir.exist?(@options[:packer_dir])
+    (puts "#{@options[:packer_dir]} not present. Cannot continue".to_red && exit) unless Dir.exist?(@options[:packer_dir])
   end
 
   # make a test connection using the AWS keys to determine if they're valid
@@ -57,7 +57,7 @@ class SingelOrchestrator
       end
       templates
     else
-      @options[:templates].map { |x| File.join(@options[:packer_dir], x)}
+      @options[:templates].map { |x| File.join(@options[:packer_dir], x) }
     end
   end
 

@@ -9,5 +9,4 @@ class SingelUploader
   def push
     puts "- Would be uploading the artifact for #{File.basename(@file_path, '.json')}".to_green.indent
   end
-
 end
