@@ -40,7 +40,7 @@ class SingelExecutor
     end
   rescue Errno::ENOENT
     puts "- Could not find the passed template file #{@file_path}".indent.to_red
-    exit
+    exit!
   end
 
   # print out the builders for this template

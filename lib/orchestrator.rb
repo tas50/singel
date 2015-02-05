@@ -38,7 +38,7 @@ class SingelOrchestrator
 
   # check to make sure the packer dir exists
   def check_dirs
-    (puts "#{@options[:packer_dir]} not present. Cannot continue".to_red && exit) unless Dir.exist?(@options[:packer_dir])
+    (puts "#{@options[:packer_dir]} not present. Cannot continue".to_red && exit!) unless Dir.exist?(@options[:packer_dir])
   end
 
   # make a test connection using the AWS keys to determine if they're valid
@@ -47,7 +47,7 @@ class SingelOrchestrator
     ec2.describe_instance_status
   rescue
     puts 'Could not connect to EC2. Check your local AWS credentials before continuing.'.to_red
-    exit
+    exit!
   end
 
   # check to make sure the prereq binaries present
@@ -56,7 +56,7 @@ class SingelOrchestrator
       `which #{binary} 2>&1`
       unless $CHILD_STATUS.success?
         puts "Could not find #{name} binary #{binary}. You must install #{name} before continuing.".to_red unless $CHILD_STATUS
-        exit
+        exit!
       end
     end
   end
@@ -71,7 +71,7 @@ class SingelOrchestrator
 
       if templates.empty?
         puts "No packer templates found in the 'packer' dir. Cannot continue.".to_red
-        exit
+        exit!
       end
       templates
     else
@@ -88,7 +88,7 @@ class SingelOrchestrator
         packer.send(cmd)
       rescue NoMethodError
         puts "Action \"#{cmd}\" not found.  Cannot continue".to_red
-        exit
+        exit!
       end
     end
   end
