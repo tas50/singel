@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'json'
-
 module Singel
   # instance of a single packer template with methods to validate and extract data
   class PackerTemplate
