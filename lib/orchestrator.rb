@@ -89,7 +89,7 @@ class SingelOrchestrator
   def execute_command(cmd)
     @templates.each do |t|
       template = PackerTemplate.new(t)
-      executor = PackerExecutor.new(template)
+      executor = PackerExecutor.new(template, @options[:builders])
       puts "Packer template validation for #{template.path} failed.\n".to_red unless template.validates?
       begin
         executor.send(cmd)

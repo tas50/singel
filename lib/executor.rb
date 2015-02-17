@@ -18,10 +18,11 @@
 
 # executes packer commands against template object
 class PackerExecutor
-  def initialize(template)
+  def initialize(template, builders)
     @template = template
     @file_path = template.path
-    @builders = template.builders
+    @template_builders = template.builders
+    @specified_builders = builders
   end
 
   # print out the builders for this template
@@ -38,9 +39,14 @@ class PackerExecutor
     end
   end
 
+  # specify the builders if any were passed
+  def build_options
+    "-only=#{@specified_builders.join(',')}" unless @specified_builders.empty?
+  end
+
   def build
     puts "Building #{File.basename(@file_path, '.json')}:".to_green
-    IO.popen("packer build #{@file_path}") do |cmd|
+    IO.popen("packer build #{build_options} #{@file_path}") do |cmd|
       cmd.each { |line| puts line }
     end
   end
