@@ -52,9 +52,11 @@ module Singel
 
       options
     end
-
-    unless ARGV[0]
+  
+    # if no argument was passed or the first arg starts with - (aka it's not actually an action)
+    if ARGV[0].nil? || ARGV[0][0] == '-' 
       puts "You must provide an action for singel to execute on\n".to_red
+      puts "single ACTION [OPTIONS]".to_red
       ARGV << '-h'
     end
   end
