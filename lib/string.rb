@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # encoding: UTF-8
 #
 # Author:: Tim Smith (<tim@cozy.co>)
@@ -17,22 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+# add a few methods for manipulating text
+class String
+  def to_green
+    "\033[32m#{self}\033[0m"
+  end
 
-begin
-  require 'optparse'
-  require 'English'
-  require 'aws-sdk-core'
-  require 'json'
-  require 'pty'
-  require 'config.rb'
-  require 'orchestrator.rb'
-  require 'executor.rb'
-  require 'uploader.rb'
-  require 'template.rb'
-  require 'string.rb'
-rescue LoadError => e
-  raise "Missing gem or lib #{e}"
+  def to_red
+    "\033[31m#{self}\033[0m"
+  end
+
+  def indent(double_space_count = 1)
+    double_space_count.times { insert(0, '  ') }
+    self
+  end
 end
-
-Singel::SingelOrchestrator.new.run

@@ -19,6 +19,8 @@
 module Singel
   # allow fetching the config anywhere in the app
   module Config
+    require 'string.rb'
+
     # return the config object or parse the options fresh
     def self.config
       @config ||= parse_opts
@@ -52,11 +54,10 @@ module Singel
 
       options
     end
-  
+
     # if no argument was passed or the first arg starts with - (aka it's not actually an action)
-    if ARGV[0].nil? || ARGV[0][0] == '-' 
-      puts "You must provide an action for singel to execute on\n".to_red
-      puts "single ACTION [OPTIONS]".to_red
+    if ARGV[0].nil? || ARGV[0][0] == '-'
+      puts "\nYou must provide an action for singel to execute on:\n".to_red
       ARGV << '-h'
     end
   end
