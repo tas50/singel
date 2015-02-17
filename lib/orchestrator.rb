@@ -38,7 +38,11 @@ class SingelOrchestrator
 
   # check to make sure the packer dir exists
   def check_dirs
-    (puts "#{@options[:packer_dir]} not present. Cannot continue".to_red && exit!) unless Dir.exist?(@options[:packer_dir])
+    unless Dir.exist?(@options[:packer_dir])
+      puts "#{@options[:packer_dir]} not present.".to_red
+      puts "See help for information on specifying an alternate dir.\n".to_red
+      exit!
+    end
   end
 
   # make a test connection using the AWS keys to determine if they're valid
