@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # encoding: UTF-8
 #
 # Author:: Tim Smith (<tim@cozy.co>)
@@ -16,8 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-lib =  File.expand_path('../../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 begin
   require 'optparse'
