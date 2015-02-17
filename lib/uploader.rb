@@ -16,13 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# uploads the packer artifacts to S3
-class SingelUploader
-  def initialize(template)
-    @file_path = template
-  end
+  module Singel
+  # uploads the packer artifacts to S3
+  class SingelUploader
+    def initialize(template)
+      @file_path = template
+    end
 
-  def push
-    puts "- Would be uploading the artifact for #{File.basename(@file_path, '.json')}".to_green.indent
+    def push
+      puts "- Would be uploading the artifact for #{File.basename(@file_path, '.json')}".to_green.indent
+    end
   end
 end

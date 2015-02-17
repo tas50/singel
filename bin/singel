@@ -85,4 +85,4 @@ end
 # parse the user provided options
 options = parse_opts
 
-SingelOrchestrator.new(options).run
+Singel::SingelOrchestrator.new(options).run

@@ -16,47 +16,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# executes packer commands against template object
-class PackerExecutor
-  def initialize(template, builders)
-    @template = template
-    @file_path = template.path
-    @template_builders = template.builders
-    @specified_builders = builders
-  end
+module Singel
+  # executes packer commands against template object
+  class PackerExecutor
+    def initialize(template, builders)
+      @template = template
+      @file_path = template.path
+      @template_builders = template.builders
+      @specified_builders = builders
+    end
 
-  # print out the builders for this template
-  def list
-    puts File.basename(@file_path, '.json') + ':'
+    # print out the builders for this template
+    def list
+      puts File.basename(@file_path, '.json') + ':'
 
-    builders = @template.builders_hash
-    if builders.empty?
-      puts '- No builders found'.indent.to_red
-    else
-      builders.each_pair do |name, type|
-        puts "- #{name} (type: #{type})".indent
+      builders = @template.builders_hash
+      if builders.empty?
+        puts '- No builders found'.indent.to_red
+      else
+        builders.each_pair do |name, type|
+          puts "- #{name} (type: #{type})".indent
+        end
       end
     end
-  end
 
-  def build
-    puts "Building #{File.basename(@file_path, '.json')}:".to_green
-    stream_cmd("packer build #{build_options} #{@file_path}")
-  end
-
-  # specify the builders if any were passed
-  def build_options
-    "-only=#{@specified_builders.join(',')}" unless @specified_builders.empty?
-  end
-
-  def stream_cmd(command)
-    PTY.spawn(command) do |r, _w, _pid|
-      begin
-       r.each { |line| print line; }
-    rescue Errno::EIO
-     end
+    def build
+      puts "Building #{File.basename(@file_path, '.json')}:".to_green
+      stream_cmd("packer build #{build_options} #{@file_path}")
     end
- rescue PTY::ChildExited
-   puts 'The child process exited!'
+
+    # specify the builders if any were passed
+    def build_options
+      "-only=#{@specified_builders.join(',')}" unless @specified_builders.empty?
+    end
+
+    def stream_cmd(command)
+      PTY.spawn(command) do |r, _w, _pid|
+        begin
+         r.each { |line| print line; }
+      rescue Errno::EIO
+       end
+      end
+   rescue PTY::ChildExited
+     puts 'The child process exited!'
+    end
   end
 end

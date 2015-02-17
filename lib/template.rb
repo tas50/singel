@@ -18,36 +18,38 @@
 
 require 'json'
 
-# instance of a single packer template with methods to validate and extract data
-class PackerTemplate
-  attr_accessor :path, :name
+module Singel
+  # instance of a single packer template with methods to validate and extract data
+  class PackerTemplate
+    attr_accessor :path, :name
 
-  def initialize(path)
-    @path = File.expand_path(path)
-    @name = File.basename(@path, '.json')
-    @file = File.read(path)
-  end
-
-  def json
-    @parsed || @parsed = JSON.parse(@file)
-  end
-
-  def builders
-    json['builders'].map { |b| b['name'] }
-  end
-
-  def builders_hash
-    builders = {}
-    json['builders'].each do |builder|
-      builders[builder['name']] = builder['type']
+    def initialize(path)
+      @path = File.expand_path(path)
+      @name = File.basename(@path, '.json')
+      @file = File.read(path)
     end
-    builders
-  end
 
-  # shell out to packer to validate the config files for correctness
-  def validates?
-    Dir.chdir(File.dirname(@path))
-    `packer validate #{@path} 2>&1`
-    $CHILD_STATUS.success? ? true : false
+    def json
+      @parsed || @parsed = JSON.parse(@file)
+    end
+
+    def builders
+      json['builders'].map { |b| b['name'] }
+    end
+
+    def builders_hash
+      builders = {}
+      json['builders'].each do |builder|
+        builders[builder['name']] = builder['type']
+      end
+      builders
+    end
+
+    # shell out to packer to validate the config files for correctness
+    def validates?
+      Dir.chdir(File.dirname(@path))
+      `packer validate #{@path} 2>&1`
+      $CHILD_STATUS.success? ? true : false
+    end
   end
 end
