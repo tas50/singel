@@ -39,3 +39,6 @@ Gemfile.lock
 # singel related files
 outputs
 packer
+
+# editor files
+*.swp
