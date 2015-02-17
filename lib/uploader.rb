@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-  module Singel
+module Singel
   # uploads the packer artifacts to S3
   class SingelUploader
     def initialize(template)

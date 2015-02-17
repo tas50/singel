@@ -20,8 +20,10 @@ module Singel
   # class to control validation of configs / prereqs and to
   # fire off the individual executor instances to build each template
   class SingelOrchestrator
-    def initialize(options)
-      @options = options
+    include Singel::Config
+
+    def initialize
+      @options = Singel::Config.config
     end
 
     # main method used to kick off the run
