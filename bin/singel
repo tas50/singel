@@ -24,6 +24,7 @@ begin
   require 'English'
   require 'aws-sdk-core'
   require 'json'
+  require 'pty'
   require 'orchestrator.rb'
   require 'executor.rb'
   require 'uploader.rb'

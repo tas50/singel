@@ -39,15 +39,24 @@ class PackerExecutor
     end
   end
 
+  def build
+    puts "Building #{File.basename(@file_path, '.json')}:".to_green
+    stream_cmd("packer build #{build_options} #{@file_path}")
+  end
+
   # specify the builders if any were passed
   def build_options
     "-only=#{@specified_builders.join(',')}" unless @specified_builders.empty?
   end
 
-  def build
-    puts "Building #{File.basename(@file_path, '.json')}:".to_green
-    IO.popen("packer build #{build_options} #{@file_path}") do |cmd|
-      cmd.each { |line| puts line }
+  def stream_cmd(command)
+    PTY.spawn(command) do |r, _w, _pid|
+      begin
+       r.each { |line| print line; }
+    rescue Errno::EIO
+     end
     end
+ rescue PTY::ChildExited
+   puts 'The child process exited!'
   end
 end
