@@ -27,6 +27,7 @@ begin
   require 'orchestrator.rb'
   require 'executor.rb'
   require 'uploader.rb'
+  require 'template.rb'
 rescue LoadError => e
   raise "Missing gem or lib #{e}"
 end

@@ -67,29 +67,32 @@ class SingelOrchestrator
 
   # find the available packer templates on the host
   def find_templates
+    # find packer templates on disk since none were passed via args
     if @options[:templates].empty?
       templates = []
       Dir.foreach(@options[:packer_dir]) do |item|
         templates << File.join(@options[:packer_dir], item) if File.extname(item).downcase == '.json'
       end
 
+      # throw and error and exist if we still dont find any templates
       if templates.empty?
         puts "No packer templates found in the 'packer' dir. Cannot continue.".to_red
         exit!
       end
       templates
-    else
+    else # parse the arg provided template list
       @options[:templates].map { |x| File.join(@options[:packer_dir], x) }
     end
   end
 
   # run the passed command per packer template
   def execute_command(cmd)
-    @templates.each do |template|
-      packer = SingelExecutor.new(template)
-      puts "Packer template validation for #{template} failed.\n".to_red unless packer.validates?
+    @templates.each do |t|
+      template = PackerTemplate.new(t)
+      executor = PackerExecutor.new(template)
+      puts "Packer template validation for #{template.path} failed.\n".to_red unless template.validates?
       begin
-        packer.send(cmd)
+        executor.send(cmd)
       rescue NoMethodError
         puts "Action \"#{cmd}\" not found.  Cannot continue".to_red
         exit!
