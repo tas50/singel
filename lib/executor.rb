@@ -51,14 +51,24 @@ module Singel
     end
 
     def stream_cmd(command)
-      PTY.spawn(command) do |r, _w, _pid|
+      PTY.spawn(command) do |r, _w, pid|
         begin
-         r.each { |line| print line; }
-      rescue Errno::EIO
-       end
+          r.each { |line| print line; }
+        rescue Errno::EIO
+          # this is an expected behavior when an app is done sending output
+        ensure
+          Process.wait(pid)
+        end
       end
-   rescue PTY::ChildExited
-     puts 'The child process exited!'
+      exit_error unless $CHILD_STATUS == 0
+    rescue PTY::ChildExited
+      exit_error unless $CHILD_STATUS == 0
+    end
+
+    # throw and error message and exit with and error status
+    def exit_error
+      puts "An error occured during the packer run.\nSee the above output for more details.".to_red
+      exit!
     end
   end
 end
