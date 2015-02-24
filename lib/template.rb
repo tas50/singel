@@ -29,6 +29,9 @@ module Singel
 
     def json
       @parsed || @parsed = JSON.parse(@file)
+      rescue JSON::ParserError
+        puts "Invalid JSON in the Packer config #{@name}.\nValidate your JSON before running Singel again.".to_red
+        exit!
     end
 
     def builders
