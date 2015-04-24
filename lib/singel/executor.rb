@@ -54,7 +54,7 @@ module Singel
       PTY.spawn(command) do |r, _w, pid|
         begin
           r.each { |line| print line; }
-        rescue Errno::EIO
+        rescue Errno::EIO # rubocop: disable Lint/HandleExceptions
           # this is an expected behavior when an app is done sending output
         ensure
           Process.wait(pid)
