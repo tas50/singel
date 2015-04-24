@@ -57,6 +57,7 @@ module Singel
     ec2.describe_instance_status
   rescue
     puts 'Could not connect to EC2. Check your local AWS credentials before continuing.'.to_red
+    STDOUT.flush
     exit!
   end
 
