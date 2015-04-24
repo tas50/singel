@@ -25,14 +25,9 @@ begin
   require 'aws-sdk-core'
   require 'json'
   require 'pty'
-  require 'config.rb'
-  require 'orchestrator.rb'
-  require 'executor.rb'
-  require 'uploader.rb'
-  require 'template.rb'
-  require 'string.rb'
+  require 'singel.rb'
 rescue LoadError => e
   raise "Missing gem or lib #{e}"
 end
 
-Singel::SingelOrchestrator.new.run
+Singel.run
