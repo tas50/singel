@@ -68,7 +68,6 @@ module Singel
     # throw and error message and exit with and error status
     def exit_error
       puts "An error occured during the packer run.\nSee the above output for more details.".to_red
-      STDOUT.flush
       exit!
     end
   end

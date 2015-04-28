@@ -28,6 +28,8 @@ module Singel
 
   # main method used to kick off the run
   def self::run
+    # flush output immediatly so job status shows up in jenkins
+    $stdout.sync = $stderr.sync = true
     @options = Config.config
     puts "\nsingel - unified image creation tool"
     puts "-----------------------------------------\n\n"
