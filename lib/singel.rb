@@ -80,7 +80,7 @@ module Singel
     if @options[:templates].empty?
       templates = []
       Dir.foreach(@options[:packer_dir]) do |item|
-        templates << File.join(@options[:packer_dir], item) if File.extname(item).downcase == '.json'
+        templates << File.join(@options[:packer_dir], item) if File.extname(item).casecmp('.json').zero?
       end
 
       # throw and error and exist if we still dont find any templates
