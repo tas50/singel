@@ -42,10 +42,8 @@ module Singel
     execute_command(ARGV[0])
   end
 
-  private
-
   # check to make sure the packer dir exists
-  def self::check_dirs
+  private_class_method def self::check_dirs
     unless Dir.exist?(@options[:packer_dir])
       puts "#{@options[:packer_dir]} not present.".to_red
       puts "See help for information on specifying an alternate dir.\n".to_red
@@ -54,7 +52,7 @@ module Singel
   end
 
   # make a test connection using the AWS keys to determine if they're valid
-  def self::check_aws_keys
+  private_class_method def self::check_aws_keys
     ec2 = Aws::EC2::Client.new(region: 'us-east-1')
     ec2.describe_instance_status
   rescue
@@ -64,7 +62,7 @@ module Singel
   end
 
   # check to make sure the prereq binaries present
-  def self::check_executables
+  private_class_method def self::check_executables
     { 'Virtualbox' => 'vboxwebsrv', 'Packer' => 'packer' }.each_pair do |name, binary|
       `which #{binary} 2>&1`
       unless $CHILD_STATUS.success?
@@ -75,7 +73,7 @@ module Singel
   end
 
   # find the available packer templates on the host
-  def self::find_templates
+  private_class_method def self::find_templates
     # find packer templates on disk since none were passed via args
     if @options[:templates].empty?
       templates = []
@@ -95,7 +93,7 @@ module Singel
   end
 
   # run the passed command per packer template
-  def self::execute_command(cmd)
+  private_class_method def self::execute_command(cmd)
     @templates.each do |t|
       template = PackerTemplate.new(t)
       executor = PackerExecutor.new(template, @options[:builders])
