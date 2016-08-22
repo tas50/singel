@@ -60,9 +60,9 @@ module Singel
           Process.wait(pid)
         end
       end
-      exit_error unless $CHILD_STATUS == 0
+      exit_error unless $CHILD_STATUS.zero?
     rescue PTY::ChildExited
-      exit_error unless $CHILD_STATUS == 0
+      exit_error unless $CHILD_STATUS.zero?
     end
 
     # throw and error message and exit with and error status
